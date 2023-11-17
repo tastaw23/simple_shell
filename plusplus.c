@@ -8,17 +8,17 @@
  */
 int _erratoi(char *s)
 {
-	int j = 0;
+	int i = 0;
 	unsigned long int result = 0;
 
 	if (*s == '+')
 		s++;  /* TODO: why does this make main return 255? */
-	for (j = 0;  s[j] != '\0'; j++)
+	for (i = 0;  s[i] != '\0'; i++)
 	{
-		if (s[j] >= '0' && s[j] <= '9')
+		if (s[i] >= '0' && s[i] <= '9')
 		{
 			result *= 10;
-			result += (s[j] - '0');
+			result += (s[i] - '0');
 			if (result > INT_MAX)
 				return (-1);
 		}
@@ -99,11 +99,11 @@ char *convert_number(long int num, int base, int flags)
 	static char buffer[50];
 	char sign = 0;
 	char *ptr;
-	unsigned long m = num;
+	unsigned long n = num;
 
 	if (!(flags & CONVERT_UNSIGNED) && num < 0)
 	{
-		m = -num;
+		n = -num;
 		sign = '-';
 
 	}
@@ -113,8 +113,8 @@ char *convert_number(long int num, int base, int flags)
 
 	do	{
 		*--ptr = array[n % base];
-		m /= base;
-	} while (m != 0);
+		n /= base;
+	} while (n != 0);
 
 	if (sign)
 		*--ptr = sign;
@@ -129,12 +129,12 @@ char *convert_number(long int num, int base, int flags)
  */
 void remove_comments(char *buf)
 {
-	int j;
+	int i;
 
-	for (j = 0; buf[j] != '\0'; j++)
-		if (buf[j] == '#' && (!j || buf[j - 1] == ' '))
+	for (i = 0; buf[i] != '\0'; i++)
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
 		{
-			buf[j] = '\0';
+			buf[i] = '\0';
 			break;
 		}
 }

@@ -9,18 +9,18 @@
  */
 char *_strncpy(char *dest, char *src, int n)
 {
-	int in, j;
+	int i, j;
 	char *s = dest;
 
-	n = 0;
-	while (src[in] != '\0' && in < n - 1)
+	i = 0;
+	while (src[i] != '\0' && i < n - 1)
 	{
-		dest[in] = src[in];
-		in++;
+		dest[i] = src[i];
+		i++;
 	}
-	if (in < n)
+	if (i < n)
 	{
-		j = in;
+		j = i;
 		while (j < n)
 		{
 			dest[j] = '\0';
@@ -39,21 +39,21 @@ char *_strncpy(char *dest, char *src, int n)
  */
 char *_strncat(char *dest, char *src, int n)
 {
-	int in, j;
+	int i, j;
 	char *s = dest;
 
-	in = 0;
+	i = 0;
 	j = 0;
-	while (dest[in] != '\0')
-		in++;
+	while (dest[i] != '\0')
+		i++;
 	while (src[j] != '\0' && j < n)
 	{
-		dest[in] = src[j];
-		in++;
+		dest[i] = src[j];
+		i++;
 		j++;
 	}
 	if (j < n)
-		dest[in] = '\0';
+		dest[i] = '\0';
 	return (s);
 }
 
