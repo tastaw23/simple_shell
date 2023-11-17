@@ -1,79 +1,79 @@
 #include "shell.h"
 
 /**
- * _monhist - displays the history list, one command by line, preceded
+ * _myhistory - displays the history list, one command by line, preceded
  *              with line numbers, starting at 0.
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
  *  Return: Always 0
  */
-int _monhist(info_t *info)
+int _myhistory(info_t *info)
 {
-	print_list(info->histoire);
+	print_list(info->history);
 	return (0);
 }
 
 /**
- * desactivationalias - sets alias to string
+ * unset_alias - sets alias to string
  * @info: parameter struct
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int desactivationalias(info_t *info, char *str)
+int unset_alias(info_t *info, char *str)
 {
-	char *poi, cxw;
+	char *p, c;
 	int ret;
 
-	poi = _strchr(str, '=');
-	if (!poi)
+	p = _strchr(str, '=');
+	if (!p)
 		return (1);
-	cxw = *poi;
-	*poi = 0;
+	c = *p;
+	*p = 0;
 	ret = delete_node_at_index(&(info->alias),
 		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
-	*poi = cxw;
+	*p = c;
 	return (ret);
 }
 
 /**
- * actifalias - sets alias to string
+ * set_alias - sets alias to string
  * @info: parameter struct
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int actifalias(info_t *info, char *str)
+int set_alias(info_t *info, char *str)
 {
-	char *poi;
+	char *p;
 
-	poi = _strchr(str, '=');
-	if (!poi)
+	p = _strchr(str, '=');
+	if (!p)
 		return (1);
-	if (!*++poi)
-		return (desactivationalias(info, str));
+	if (!*++p)
+		return (unset_alias(info, str));
 
-	desactivationalias(info, str);
+	unset_alias(info, str);
 	return (add_node_end(&(info->alias), str, 0) == NULL);
 }
 
 /**
- * affalias - afficher un alias string
+ * print_alias - prints an alias string
  * @node: the alias node
  *
  * Return: Always 0 on success, 1 on error
  */
-int affalias(list_t *node)
+int print_alias(list_t *node)
 {
-	char *poi = NULL, *aqw = NULL;
+	char *p = NULL, *a = NULL;
 
 	if (node)
 	{
-		poi = _strchr(node->str, '=');
-		for (aqw = node->str; aqw <= poi; aqw++)
-		_putchar(*aqw);
+		p = _strchr(node->str, '=');
+		for (a = node->str; a <= p; a++)
+		_putchar(*a);
 		_putchar('\'');
-		_puts(poi + 1);
+		_puts(p + 1);
 		_puts("'\n");
 		return (0);
 	}
@@ -81,15 +81,15 @@ int affalias(list_t *node)
 }
 
 /**
- * monalias - imite les alias builtin (man alias)
+ * _myalias - mimics the alias builtin (man alias)
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int monalias(info_t *info)
+int _myalias(info_t *info)
 {
-	int in = 0;
-	char *poi = NULL;
+	int i = 0;
+	char *p = NULL;
 	list_t *node = NULL;
 
 	if (info->argc == 1)
@@ -97,18 +97,18 @@ int monalias(info_t *info)
 		node = info->alias;
 		while (node)
 		{
-			affalias(node);
+			print_alias(node);
 			node = node->next;
 		}
 		return (0);
 	}
-	for (in = 1; info->argv[in]; in++)
+	for (i = 1; info->argv[i]; i++)
 	{
-		poi = _strchr(info->argv[in], '=');
-		if (poi)
-			actifalias(info, info->argv[in]);
+		p = _strchr(info->argv[i], '=');
+		if (p)
+			set_alias(info, info->argv[i]);
 		else
-			affalias(node_starts_with(info->alias, info->argv[in], '='));
+			print_alias(node_starts_with(info->alias, info->argv[i], '='));
 	}
 
 	return (0);

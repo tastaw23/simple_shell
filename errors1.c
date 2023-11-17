@@ -8,17 +8,17 @@
  */
 int _erratoi(char *s)
 {
-	int in = 0;
+	int i = 0;
 	unsigned long int result = 0;
 
-	if (*ss == '+')
-		ss++;  /* TODO: why does this make main return 255? */
-	for (in = 0;  ss[in] != '\0'; in++)
+	if (*s == '+')
+		s++;  /* TODO: why does this make main return 255? */
+	for (i = 0;  s[i] != '\0'; i++)
 	{
-		if (ss[in] >= '0' && ss[in] <= '9')
+		if (s[i] >= '0' && s[i] <= '9')
 		{
 			result *= 10;
-			result += (ss[in] - '0');
+			result += (s[i] - '0');
 			if (result > INT_MAX)
 				return (-1);
 		}

@@ -1,23 +1,23 @@
 #include "shell.h"
 
 /**
- * masortie - exits the shell
+ * _myexit - exits the shell
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: exits with a given exit status
  * (0) if info.argv[0] != "exit"
  */
-int masortie(info_t *info)
+int _myexit(info_t *info)
 {
-	int sortiecheck;
+	int exitcheck;
 
-	if (info->argv[1]) /* S'il y a un argument de sorti */
+	if (info->argv[1]) /* If there is an exit arguement */
 	{
-		sortiecheck = _erratoi(info->argv[1]);
-		if (sortiecheck == -1)
+		exitcheck = _erratoi(info->argv[1]);
+		if (exitcheck == -1)
 		{
 			info->status = 2;
-			print_error(info, "nombre illegal: ");
+			print_error(info, "Illegal number: ");
 			_eputs(info->argv[1]);
 			_eputchar('\n');
 			return (1);
@@ -30,27 +30,27 @@ int masortie(info_t *info)
 }
 
 /**
- * moncdp - changes the current directory of the process
+ * _mycd - changes the current directory of the process
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: Always 0
  */
-int moncdp(info_t *info)
+int _mycd(info_t *info)
 {
-	char *sss, *reper, buffer[1024];
-	int chreper_ret;
+	char *s, *dir, buffer[1024];
+	int chdir_ret;
 
 	s = getcwd(buffer, 1024);
-	if (!sss)
-		_puts("TODO: >>erreue ici<<\n");
+	if (!s)
+		_puts("TODO: >>getcwd failure emsg here<<\n");
 	if (!info->argv[1])
 	{
-		reper = _getenv(info, "HOME=");
-		if (!reper)
-			chreper_ret = /* TODO: etre quoi? */
-				chreper((reper = _getenv(info, "PWD=")) ? reper : "/");
+		dir = _getenv(info, "HOME=");
+		if (!dir)
+			chdir_ret = /* TODO: what should this be? */
+				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
 		else
-			chreper_ret = chreper(reper);
+			chdir_ret = chdir(dir);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{
@@ -61,12 +61,12 @@ int moncdp(info_t *info)
 			return (1);
 		}
 		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
-		chreper_ret = /* TODO: etre quoi? */
-			chreper((reper = _getenv(info, "OLDPWD=")) ? reper : "/");
+		chdir_ret = /* TODO: what should this be? */
+			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		chreper_ret = chreper(info->argv[1]);
-	if (chreper_ret == -1)
+		chdir_ret = chdir(info->argv[1]);
+	if (chdir_ret == -1)
 	{
 		print_error(info, "can't cd to ");
 		_eputs(info->argv[1]), _eputchar('\n');
@@ -80,19 +80,19 @@ int moncdp(info_t *info)
 }
 
 /**
- * _aide - changes the current directory of the process
+ * _myhelp - changes the current directory of the process
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
  * Return: Always 0
  */
-int _aide(info_t *info)
+int _myhelp(info_t *info)
 {
-	char **tabarg;
+	char **arg_array;
 
-	tabarg = info->argv;
-	_puts("appeler aide. Fct non implemented \n");
+	arg_array = info->argv;
+	_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*tabarg); /* sol temporaire */
+		_puts(*arg_array); /* temp att_unused workaround */
 	return (0);
 }
 
